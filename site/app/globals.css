@@ -1,17 +1,25 @@
 @import 'tailwindcss';
 
 @theme {
-  --font-sans: 'Inter Tight', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* Polices de l'application elle-même : Geist pour l'interface, Newsreader
+     pour l'option « serif » des pages. Le site parle avec la voix du produit. */
+  --font-sans: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-mono: 'Geist Mono', ui-monospace, Menlo, Consolas, monospace;
 
-  /* Palette du site Hublink : Carnet est une application de pages blanches,
-     son site garde donc le sol clair. Les cartes ressortent par leur blanc et
-     leur ombre, jamais par une bordure marquée. */
-  --color-page: #e8eaec;
-  --color-canvas: #f4f6f7;
-  --color-card: #ffffff;
-  --color-ink: #0b0c0e;
-  --color-ink-soft: #5b6167;
-  --color-line: #e3e6e8;
+  /* Papier crème et encre chaude : Carnet est un cahier, pas une console.
+     Les deux couleurs d'accent sont celles de l'application : le bleu des
+     cases cochées et le jaune du surligneur. */
+  --color-paper: #f5f1e8;
+  --color-sheet: #fffdf8;
+  --color-ink: #1f1c17;
+  --color-ink-soft: #6a645a;
+  --color-rule: #e2dccf;
+  --color-seyes: #7d7fd6;
+  --color-marge: #e0605d;
+  --color-bleu: #3d5bd9;
+  --color-surligneur: #ffe98a;
+  --color-nuit: #17161a;
 }
 
 @layer base {
@@ -19,21 +27,102 @@
     scroll-behavior: smooth;
   }
   body {
-    background: var(--color-page);
+    background: var(--color-paper);
     color: var(--color-ink);
     -webkit-font-smoothing: antialiased;
-    letter-spacing: -0.011em;
   }
   ::selection {
-    background: var(--color-ink);
-    color: #fff;
+    background: var(--color-surligneur);
+    color: var(--color-ink);
   }
 }
 
-@utility headline {
-  font-weight: 600;
-  letter-spacing: -0.045em;
-  line-height: 0.98;
+/* Titres éditoriaux : serif à grand corps, légèrement resserré */
+@utility titre {
+  font-family: var(--font-serif);
+  font-weight: 450;
+  letter-spacing: -0.022em;
+  line-height: 1.02;
+  font-optical-sizing: auto;
+}
+
+/* Petit surtitre en capitales espacées, façon rubrique de magazine */
+@utility rubrique {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+/* Quadrillage Seyès : grands carreaux de 32 px, trois lignes fines entre deux
+   lignes marquées, et la marge rouge. Posé en fond, estompé vers le bas. */
+@utility seyes {
+  background-image:
+    linear-gradient(
+      to right,
+      transparent calc(var(--marge, 12%) - 1px),
+      color-mix(in srgb, var(--color-marge) 55%, transparent) calc(var(--marge, 12%) - 1px),
+      color-mix(in srgb, var(--color-marge) 55%, transparent) calc(var(--marge, 12%) + 1px),
+      transparent calc(var(--marge, 12%) + 1px)
+    ),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-seyes) 24%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-seyes) 9%, transparent) 1px, transparent 1px),
+    linear-gradient(to right, color-mix(in srgb, var(--color-seyes) 13%, transparent) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    100% 32px,
+    100% 8px,
+    32px 100%;
+  mask-image: linear-gradient(to bottom, black 55%, transparent);
+}
+
+/* Le surligneur de l'application, qui se pose sur les mots au chargement */
+@utility surligne {
+  background-image: linear-gradient(
+    104deg,
+    transparent 0.2em,
+    var(--color-surligneur) 0.35em,
+    var(--color-surligneur) calc(100% - 0.25em),
+    transparent calc(100% - 0.1em)
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 0.52em;
+  background-position: 0 88%;
+  box-decoration-break: clone;
+  padding-inline: 0.08em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .js .surligne {
+    background-size: 0% 0.52em;
+    animation: surligner 0.9s 0.45s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+}
+@keyframes surligner {
+  to {
+    background-size: 100% 0.52em;
+  }
+}
+
+/* Touche de clavier en relief, pour les raccourcis */
+@utility touche {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.6em;
+  height: 2.6em;
+  padding-inline: 0.7em;
+  border-radius: 0.55em;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--color-ink);
+  background: linear-gradient(to bottom, #fffefb, #efe9dc);
+  border: 1px solid #d9d1c0;
+  box-shadow:
+    0 1px 0 #fff inset,
+    0 3px 0 #cfc6b3,
+    0 5px 10px -4px rgba(31, 28, 23, 0.25);
 }
 
 /* Les sections se révèlent au défilement, sans jamais rester invisibles si
@@ -41,14 +130,14 @@
 @utility reveal {
   opacity: 1;
   transition:
-    opacity 0.7s ease,
-    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .js .reveal {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(14px);
   }
   .js .reveal[data-visible='true'] {
     opacity: 1;

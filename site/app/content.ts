@@ -15,15 +15,28 @@ export type Contenu = {
   nav: { fonctions: string; versions: string; autreLangue: string; telecharger: string };
   hero: {
     badge: (version: string) => string;
+    /** Le titre se lit `titre` puis `titreSurligne`, cette seconde partie passée au surligneur. */
     titre: string;
+    titreSurligne: string;
     texte: string;
     telecharger: string;
     code: string;
   };
+  /** La page d'exemple du hero, dont les cases se cochent vraiment. */
+  demo: {
+    titre: string;
+    sousTitre: string;
+    taches: [string, boolean][];
+    lienAvant: string;
+    lienPage: string;
+    placeholder: string;
+    legende: string;
+  };
+  libelles: { sommaire: string; figure: string; journal: string };
   shot: { alt: string };
   pourquoi: { titre: string; p1: string; p2: string; p3: string };
   fonctions: { titre: string; cartes: { titre: string; texte: string }[] };
-  flux: { titre: string; sous: string; etapes: { cle: string; titre: string; texte: string }[] };
+  flux: { titre: string; sous: string; etapes: { touches: string[]; titre: string; texte: string }[] };
   blocs: Section;
   taches: Section;
   chiffres: { titre: string; sous: string; items: { valeur: string; legende: string }[] };
@@ -96,12 +109,28 @@ const brut: Contenu = {
   },
   hero: {
     badge: (version) => `Version ${version} · Windows et macOS`,
-    titre: 'Vos notes, vos tâches et vos projets au même endroit',
+    titre: 'Vos notes, vos tâches et vos projets',
+    titreSurligne: 'au même endroit',
     texte:
       "Carnet est un carnet de notes de bureau. Les pages s'imbriquent, les cases à cocher de toutes les pages se retrouvent dans une seule liste, et tout reste sur votre ordinateur, sans compte à créer.",
-    telecharger: 'Télécharger',
+    telecharger: 'Télécharger Carnet',
     code: 'Voir le code'
   },
+  demo: {
+    titre: 'Aujourd’hui',
+    sousTitre: 'Journal',
+    taches: [
+      ['Relire les maquettes de l’accueil', true],
+      ['Envoyer le compte rendu', true],
+      ['Préparer la réunion de jeudi', false],
+      ['Appeler le garage', false]
+    ],
+    lienAvant: 'Détails dans',
+    lienPage: 'Refonte du site',
+    placeholder: 'Tapez « / » pour insérer un bloc',
+    legende: 'Ces cases se cochent : essayez.'
+  },
+  libelles: { sommaire: 'Sommaire', figure: 'Fig.', journal: 'Journal des versions' },
   shot: { alt: 'Carnet, une page de projet avec ses étapes et son planning' },
   pourquoi: {
     titre: 'Entre le dossier de fichiers texte et Notion',
@@ -149,19 +178,19 @@ const brut: Contenu = {
     sous: 'Tout se fait au clavier, et tout reste accessible à la souris.',
     etapes: [
       {
-        cle: 'Ctrl N',
+        touches: ['Ctrl', 'N'],
         titre: 'Créer une page',
         texte:
           "La page s'ouvre avec le curseur dans le titre. Tant qu'elle est vide, quatre modèles sont proposés : liste de tâches, réunion, projet et journal."
       },
       {
-        cle: '/',
+        touches: ['/'],
         titre: 'Structurer',
         texte:
           "Sur une ligne vide, « / » ouvre la liste des blocs. Quelques lettres filtrent la liste, et Entrée insère le bloc choisi."
       },
       {
-        cle: '@',
+        touches: ['@'],
         titre: 'Relier',
         texte: '« @ » propose les pages existantes, ou crée une sous-page avec le nom tapé.'
       }
@@ -266,12 +295,28 @@ export const en: Contenu = {
   },
   hero: {
     badge: (version) => `Version ${version} · Windows and macOS`,
-    titre: 'Your notes, tasks and projects in one place',
+    titre: 'Your notes, tasks and projects,',
+    titreSurligne: 'all in one place',
     texte:
       'Carnet is a desktop notebook. Pages nest inside each other, the checkboxes from every page come together in a single list, and everything stays on your computer, with no account to create.',
-    telecharger: 'Download',
+    telecharger: 'Download Carnet',
     code: 'View the code'
   },
+  demo: {
+    titre: 'Today',
+    sousTitre: 'Journal',
+    taches: [
+      ['Review the homepage mockups', true],
+      ['Send the meeting notes', true],
+      ['Prepare Thursday’s meeting', false],
+      ['Call the garage', false]
+    ],
+    lienAvant: 'Details in',
+    lienPage: 'Website redesign',
+    placeholder: 'Type "/" to insert a block',
+    legende: 'These boxes really check: try it.'
+  },
+  libelles: { sommaire: 'Contents', figure: 'Fig.', journal: 'Release notes' },
   shot: { alt: 'Carnet, a project page with its steps and schedule' },
   pourquoi: {
     titre: 'Between a folder of text files and Notion',
@@ -317,18 +362,18 @@ export const en: Contenu = {
     sous: 'Everything works from the keyboard, and everything stays reachable with the mouse.',
     etapes: [
       {
-        cle: 'Ctrl N',
+        touches: ['Ctrl', 'N'],
         titre: 'Create a page',
         texte:
           'The page opens with the cursor in the title. While it is empty, four templates are offered: task list, meeting, project and journal.'
       },
       {
-        cle: '/',
+        touches: ['/'],
         titre: 'Structure',
         texte: 'On an empty line, "/" opens the block list. A few letters filter it, and Enter inserts the block.'
       },
       {
-        cle: '@',
+        touches: ['@'],
         titre: 'Connect',
         texte: '"@" suggests existing pages, or creates a subpage with the name you typed.'
       }

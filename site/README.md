@@ -1,7 +1,24 @@
 # Site de Carnet
 
-Vitrine Next.js, bilingue : l'anglais à la racine, le français sous `/fr`. Même base que le
-site de Polyglot, sur le sol clair et le système de surfaces du site Hublink.
+Vitrine Next.js, bilingue : l'anglais à la racine, le français sous `/fr`. La mécanique
+(dictionnaire, releases, détection d'OS, révélation au défilement) vient du site de
+Polyglot ; **l'identité est propre à Carnet** et ne doit pas redevenir celle de Hublink.
+
+## Direction artistique
+
+Carnet est un cahier, le site en reprend la matière :
+
+- **Papier crème** (`paper`, `sheet`) et encre chaude, quadrillage **Seyès** avec sa marge
+  rouge en fond du hero (`seyes`, estompé vers le bas) ;
+- **Newsreader** pour les titres (la police serif proposée dans l'application), **Geist**
+  pour le texte et **Geist Mono** pour les rubriques, les touches et les numéros ;
+- les deux accents de l'application : le **bleu des cases cochées** et le **jaune du
+  surligneur**, qui se pose sur la fin du titre au chargement (`surligne`) ;
+- boutons à coins de 8 px (jamais de pilules), barre de navigation pleine largeur ;
+- motifs éditoriaux : liste cochable pour de vrai dans le hero (`app/demo.tsx`), sommaire
+  numéroté avec points de conduite, touches de clavier en relief (`touche`), légendes
+  « Fig. n », journal des versions daté dans la marge, téléchargement en couverture de
+  carnet à élastique, section sombre pleine largeur pour le thème sombre.
 
 ```bash
 npm install
