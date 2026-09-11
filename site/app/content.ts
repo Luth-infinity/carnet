@@ -14,10 +14,7 @@ export type Contenu = {
   meta: { title: string; description: string };
   nav: { fonctions: string; versions: string; autreLangue: string; telecharger: string };
   hero: {
-    badge: (version: string) => string;
-    /** Le titre se lit `titre` puis `titreSurligne`, cette seconde partie passée au surligneur. */
     titre: string;
-    titreSurligne: string;
     texte: string;
     telecharger: string;
     code: string;
@@ -25,27 +22,21 @@ export type Contenu = {
   /** La page d'exemple du hero, dont les cases se cochent vraiment. */
   demo: {
     titre: string;
-    sousTitre: string;
     taches: [string, boolean][];
     lienAvant: string;
     lienPage: string;
-    placeholder: string;
-    legende: string;
   };
-  libelles: { sommaire: string; figure: string; journal: string };
   shot: { alt: string };
   pourquoi: { titre: string; p1: string; p2: string; p3: string };
   fonctions: { titre: string; cartes: { titre: string; texte: string }[] };
-  flux: { titre: string; sous: string; etapes: { touches: string[]; titre: string; texte: string }[] };
+  flux: { titre: string; etapes: { touches: string[]; titre: string; texte: string }[] };
   blocs: Section;
   taches: Section;
   chiffres: { titre: string; sous: string; items: { valeur: string; legende: string }[] };
   sombre: { titre: string; texte: string; alt: string };
-  confiance: { titre: string; intro: string; points: [string, string][] };
+  confiance: { titre: string; points: [string, string][] };
   changelog: {
     titre: string;
-    sous: (n: number) => string;
-    actuelle: string;
     detail: string;
     vide: string;
   };
@@ -61,7 +52,6 @@ export type Contenu = {
   };
   soutenir: { titre: string; texte: string; cafe: string; etoile: string };
   footer: {
-    signature: string;
     suite: string;
     github: string;
     versions: string;
@@ -108,9 +98,7 @@ const brut: Contenu = {
     telecharger: 'Télécharger'
   },
   hero: {
-    badge: (version) => `Version ${version} · Windows et macOS`,
-    titre: 'Vos notes, vos tâches et vos projets',
-    titreSurligne: 'au même endroit',
+    titre: 'Vos notes, vos tâches et vos projets au même endroit',
     texte:
       "Carnet est un carnet de notes de bureau. Les pages s'imbriquent, les cases à cocher de toutes les pages se retrouvent dans une seule liste, et tout reste sur votre ordinateur, sans compte à créer.",
     telecharger: 'Télécharger Carnet',
@@ -118,7 +106,6 @@ const brut: Contenu = {
   },
   demo: {
     titre: 'Aujourd’hui',
-    sousTitre: 'Journal',
     taches: [
       ['Relire les maquettes de l’accueil', true],
       ['Envoyer le compte rendu', true],
@@ -126,11 +113,8 @@ const brut: Contenu = {
       ['Appeler le garage', false]
     ],
     lienAvant: 'Détails dans',
-    lienPage: 'Refonte du site',
-    placeholder: 'Tapez « / » pour insérer un bloc',
-    legende: 'Ces cases se cochent : essayez.'
+    lienPage: 'Refonte du site'
   },
-  libelles: { sommaire: 'Sommaire', figure: 'Fig.', journal: 'Journal des versions' },
   shot: { alt: 'Carnet, une page de projet avec ses étapes et son planning' },
   pourquoi: {
     titre: 'Entre le dossier de fichiers texte et Notion',
@@ -175,7 +159,6 @@ const brut: Contenu = {
   },
   flux: {
     titre: 'Trois touches pour commencer',
-    sous: 'Tout se fait au clavier, et tout reste accessible à la souris.',
     etapes: [
       {
         touches: ['Ctrl', 'N'],
@@ -203,7 +186,7 @@ const brut: Contenu = {
     alt: 'Le menu « / » ouvert sous un tableau, avec la liste des blocs'
   },
   taches: {
-    titre: 'Toutes les tâches au même endroit',
+    titre: 'La vue Tâches',
     p1: 'Les cases à cocher restent dans leurs pages, là où elles ont un contexte. La vue Tâches les rassemble par page, avec la progression et un filtre sur celles qui restent à faire.',
     p2: "Le champ d'ajout rapide range une tâche dans la page « Tâches rapides », pour la classer plus tard.",
     alt: 'La vue Tâches, avec les tâches regroupées par page'
@@ -220,12 +203,11 @@ const brut: Contenu = {
   sombre: {
     titre: 'Clair ou sombre, selon vos réglages',
     texte:
-      'Le thème suit celui du système, et se change depuis la barre latérale. Ici, une page en police à empattement sur le thème sombre.',
+      'Le thème suit celui du système, et se change depuis la barre latérale.',
     alt: 'Carnet en thème sombre, une page de lectures en police à empattement'
   },
   confiance: {
     titre: 'À savoir avant d\'installer',
-    intro: 'Carnet est gratuit et son code est public. Quelques points pratiques :',
     points: [
       [
         'Vos notes restent sur la machine',
@@ -247,8 +229,6 @@ const brut: Contenu = {
   },
   changelog: {
     titre: 'Versions',
-    sous: (n) => (n > 1 ? `Les ${n} dernières versions publiées.` : 'La dernière version publiée.'),
-    actuelle: 'Actuelle',
     detail: 'Notes complètes sur GitHub',
     vide: 'Pas de détail pour cette version.'
   },
@@ -270,7 +250,6 @@ const brut: Contenu = {
     etoile: 'Mettre une étoile'
   },
   footer: {
-    signature: 'Carnet, des notes sur votre ordinateur',
     suite: 'Les autres apps',
     github: 'GitHub',
     versions: 'Versions',
@@ -294,9 +273,7 @@ export const en: Contenu = {
     telecharger: 'Download'
   },
   hero: {
-    badge: (version) => `Version ${version} · Windows and macOS`,
-    titre: 'Your notes, tasks and projects,',
-    titreSurligne: 'all in one place',
+    titre: 'Your notes, tasks and projects in one place',
     texte:
       'Carnet is a desktop notebook. Pages nest inside each other, the checkboxes from every page come together in a single list, and everything stays on your computer, with no account to create.',
     telecharger: 'Download Carnet',
@@ -304,7 +281,6 @@ export const en: Contenu = {
   },
   demo: {
     titre: 'Today',
-    sousTitre: 'Journal',
     taches: [
       ['Review the homepage mockups', true],
       ['Send the meeting notes', true],
@@ -312,11 +288,8 @@ export const en: Contenu = {
       ['Call the garage', false]
     ],
     lienAvant: 'Details in',
-    lienPage: 'Website redesign',
-    placeholder: 'Type "/" to insert a block',
-    legende: 'These boxes really check: try it.'
+    lienPage: 'Website redesign'
   },
-  libelles: { sommaire: 'Contents', figure: 'Fig.', journal: 'Release notes' },
   shot: { alt: 'Carnet, a project page with its steps and schedule' },
   pourquoi: {
     titre: 'Between a folder of text files and Notion',
@@ -359,7 +332,6 @@ export const en: Contenu = {
   },
   flux: {
     titre: 'Three keys to get started',
-    sous: 'Everything works from the keyboard, and everything stays reachable with the mouse.',
     etapes: [
       {
         touches: ['Ctrl', 'N'],
@@ -386,7 +358,7 @@ export const en: Contenu = {
     alt: 'The "/" menu open below a table, listing the blocks'
   },
   taches: {
-    titre: 'Every task in one place',
+    titre: 'The Tasks view',
     p1: 'Checkboxes stay in their pages, where they have context. The Tasks view gathers them by page, with progress and a filter for what is left to do.',
     p2: 'The quick-add field files a task in the "Tâches rapides" page, to sort it out later.',
     alt: 'The Tasks view, with tasks grouped by page'
@@ -403,12 +375,11 @@ export const en: Contenu = {
   sombre: {
     titre: 'Light or dark, as you prefer',
     texte:
-      "The theme follows your system, and can be switched from the sidebar. Here, a page in a serif font on the dark theme.",
+      "The theme follows your system, and can be switched from the sidebar.",
     alt: 'Carnet in dark mode, a reading list page in a serif font'
   },
   confiance: {
     titre: 'Good to know before installing',
-    intro: 'Carnet is free and its code is public. Its interface is in French for now. A few practical points:',
     points: [
       [
         'Your notes stay on your machine',
@@ -430,14 +401,12 @@ export const en: Contenu = {
   },
   changelog: {
     titre: 'Releases',
-    sous: (n) => (n > 1 ? `The last ${n} published versions.` : 'The latest published version.'),
-    actuelle: 'Current',
     detail: 'Full notes on GitHub',
     vide: 'No details for this version.'
   },
   telecharger: {
     titre: 'Download Carnet',
-    sous: (version) => `Version ${version}, free, for Windows and macOS.`,
+    sous: (version) => `Version ${version}, free, for Windows and macOS. The interface is in French.`,
     win: 'Download for Windows',
     mac: 'Download for Mac (Apple Silicon)',
     winArm: 'Windows on ARM',
@@ -453,7 +422,6 @@ export const en: Contenu = {
     etoile: 'Star the repository'
   },
   footer: {
-    signature: 'Carnet, notes on your computer',
     suite: 'The other apps',
     github: 'GitHub',
     versions: 'Releases',

@@ -6,29 +6,20 @@ Polyglot ; **l'identité est propre à Carnet** et ne doit pas redevenir celle d
 
 ## Direction artistique
 
-Carnet est un cahier, le site en reprend la matière :
+Identité propre à Carnet, **sur la palette noir et blanc des sites de Luth** (gris très
+légèrement froids, encre noire, aucun accent coloré, jamais de beige) :
 
-- **Papier crème** (`paper`, `sheet`) et encre chaude, quadrillage **Seyès** avec sa marge
-  rouge en fond du hero (`seyes`, estompé vers le bas) ;
+- quadrillage **Seyès** en gris neutre, avec son trait de marge, en fond du hero ;
 - **Newsreader** pour les titres (la police serif proposée dans l'application), **Geist**
-  pour le texte et **Geist Mono** pour les rubriques, les touches et les numéros ;
-- les deux accents de l'application : le **bleu des cases cochées** et le **jaune du
-  surligneur**, qui se pose sur la fin du titre au chargement (`surligne`) ;
-- boutons à coins de 8 px (jamais de pilules), barre de navigation pleine largeur ;
-- motifs éditoriaux : liste cochable pour de vrai dans le hero (`app/demo.tsx`), sommaire
-  numéroté avec points de conduite, touches de clavier en relief (`touche`), légendes
-  « Fig. n », journal des versions daté dans la marge, téléchargement en couverture de
-  carnet à élastique, section sombre pleine largeur pour le thème sombre.
+  pour le texte, **Geist Mono** pour les numéros et les touches ;
+- boutons à coins de 8 px (pas de pilules), barre de navigation pleine largeur ;
+- motifs : page d'exemple aux cases cochables dans le hero (`app/demo.tsx`), sommaire
+  numéroté avec points de conduite, touches de clavier en relief (`touche`), journal des
+  versions avec le numéro dans la marge, téléchargement en couverture de carnet noire.
 
-```bash
-npm install
-npm run dev     # http://localhost:3218
-npm run build
-```
-
-Déployé sur **`carnet-luth.vercel.app`** (projet Vercel `carnet-site`) par `vercel --prod`
-depuis ce dossier. Le projet n'est pas relié au dépôt : redéployer après chaque release
-pour que le journal soit à jour tout de suite (il se revalide sinon toutes les dix minutes).
+**Pas de remplissage** : ni italique décoratif, ni légendes sous les captures, ni
+surtitres qui répètent le titre, ni petites phrases qui n'apportent rien. Chaque texte
+doit dire quelque chose que le titre ne dit pas déjà.
 
 ## Ce qui se met à jour tout seul
 
