@@ -15,6 +15,8 @@ const eslintConfig = defineConfig([
     // Processus principal Electron : CommonJS, hors du périmètre des règles React
     "electron/**",
     "release/**",
+    // Site vitrine : projet Next séparé, avec sa propre configuration
+    "site/**",
   ]),
 ]);
 

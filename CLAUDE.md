@@ -47,10 +47,25 @@ action partirait deux fois.
 1. Bump `version` dans `package.json`, commit.
 2. `npm run dist:win` → `release/Carnet-Setup-<v>-x64.exe`, `-arm64.exe` et `latest.yml`.
 3. Pousser sur `main`.
-4. `gh release create vX.Y.Z --draft` avec les deux `.exe`, leurs `.blockmap` **et
+4. `gh release create vX.Y.Z --draft` avec les trois `.exe`, leurs `.blockmap` **et
    `release/latest.yml`** : sans ce dernier, la mise à jour automatique échoue en silence.
 5. `gh release edit vX.Y.Z --draft=false` : la publication déclenche
    `.github/workflows/macos.yml`, qui joint les deux `.dmg` quelques minutes plus tard.
+6. Redéployer le site (`vercel --prod` depuis `site/`) pour que le journal soit à jour
+   tout de suite.
+
+**Notes de version** : paragraphes en français, puis un titre `## English` et leur
+traduction, puis les lignes d'installation commençant par `**Windows**` / `**macOS**`.
+Le site n'affiche que les quatre premiers paragraphes de la langue de la page : mettre
+l'important en tête.
+
+## Le site
+
+`site/` est la vitrine Next.js bilingue, en ligne sur **`carnet-luth.vercel.app`** (projet
+Vercel `carnet-site`, déployé à la main, non relié au dépôt). Liens de téléchargement,
+numéro de version et journal sont lus sur les releases GitHub : rien à bumper. Tout le
+reste (captures, typographie) est dans `site/README.md`. Carnet figure aussi sur
+`luth-apps.vercel.app`, dont le dossier `Documents/Apps/luth` n'est pas versionné.
 
 Garder la numérotation en `0.x` : `electron-updater` ne redescend jamais d'un numéro.
 La mise à jour automatique ne vaut que pour Windows ; macOS se contente d'un signalement

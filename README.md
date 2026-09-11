@@ -10,6 +10,7 @@
 </p>
 
 <p align="center">
+  <a href="https://carnet-luth.vercel.app/fr">Site</a> ·
   <a href="https://github.com/Luth-infinity/carnet/releases/latest">Télécharger la dernière version</a>
 </p>
 
