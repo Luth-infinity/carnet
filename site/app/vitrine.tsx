@@ -90,9 +90,9 @@ function Hero({ t }: { t: Contenu }) {
   return (
     <section id="top" className="relative overflow-hidden">
       <div aria-hidden className="seyes absolute inset-0 [--marge:max(9px,calc((100vw-72rem)/2-24px))]" />
-      <div className="relative mx-auto grid max-w-6xl items-center gap-16 px-5 pt-20 pb-24 lg:grid-cols-[1.15fr_1fr] lg:pt-28">
+      <div className="relative mx-auto grid max-w-6xl items-center gap-16 px-5 pt-20 pb-24 lg:grid-cols-[1.4fr_1fr] lg:pt-28">
         <div>
-          <h1 className="reveal titre text-[48px] sm:text-[68px] lg:text-[80px]">
+          <h1 className="reveal titre text-[40px] text-balance sm:text-[52px] lg:text-[58px]">
             {t.hero.titre}
           </h1>
           <p className="reveal text-ink-soft mt-7 max-w-[50ch] text-[18px] leading-relaxed">{t.hero.texte}</p>

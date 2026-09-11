@@ -98,7 +98,7 @@ const brut: Contenu = {
     telecharger: 'Télécharger'
   },
   hero: {
-    titre: 'Vos notes, vos tâches et vos projets au même endroit',
+    titre: 'Vos notes et vos tâches au même endroit',
     texte:
       "Carnet est un carnet de notes de bureau. Les pages s'imbriquent, les cases à cocher de toutes les pages se retrouvent dans une seule liste, et tout reste sur votre ordinateur, sans compte à créer.",
     telecharger: 'Télécharger Carnet',
@@ -273,7 +273,7 @@ export const en: Contenu = {
     telecharger: 'Download'
   },
   hero: {
-    titre: 'Your notes, tasks and projects in one place',
+    titre: 'Your notes and tasks in one place',
     texte:
       'Carnet is a desktop notebook. Pages nest inside each other, the checkboxes from every page come together in a single list, and everything stays on your computer, with no account to create.',
     telecharger: 'Download Carnet',
