@@ -117,13 +117,11 @@ function Hero({ t }: { t: Contenu }) {
 function Pourquoi({ t }: { t: Contenu }) {
   return (
     <section id="pourquoi" className="mx-auto max-w-6xl px-5 py-28">
-      <div className="grid gap-12 lg:grid-cols-[1fr_1.2fr]">
-        <h2 className="reveal titre text-[40px] sm:text-[52px]">{t.pourquoi.titre}</h2>
-        <div className="reveal text-ink-soft space-y-5 text-[18px] leading-relaxed">
-          <p>{t.pourquoi.p1}</p>
-          <p>{t.pourquoi.p2}</p>
-          <p className="text-ink font-medium">{t.pourquoi.p3}</p>
-        </div>
+      <h2 className="reveal titre max-w-[20ch] text-[40px] text-balance sm:text-[52px]">{t.pourquoi.titre}</h2>
+      <div className="reveal text-ink-soft mt-8 max-w-[65ch] space-y-5 text-[18px] leading-relaxed">
+        <p>{t.pourquoi.p1}</p>
+        <p>{t.pourquoi.p2}</p>
+        <p className="text-ink font-medium">{t.pourquoi.p3}</p>
       </div>
     </section>
   );
@@ -197,16 +195,18 @@ function Duo({ section, src, inverse }: { section: Contenu['blocs']; src: string
 function Chiffres({ t }: { t: Contenu }) {
   return (
     <section id="chiffres" className="mx-auto max-w-6xl px-5 pb-28">
-      <div className="border-ink grid gap-12 border-y-2 py-14 lg:grid-cols-[1fr_2fr]">
+      <div className="border-ink border-y-2 py-14">
+        {/* Titre et texte au-dessus, chiffres alignés dessous : tout sur une
+            seule rangée faisait des hauteurs en escalier */}
         <div className="reveal">
-          <h2 className="titre text-[34px] sm:text-[42px]">{t.chiffres.titre}</h2>
-          <p className="text-ink-soft mt-4 text-[16px] leading-relaxed">{t.chiffres.sous}</p>
+          <h2 className="titre text-[34px] text-balance sm:text-[42px]">{t.chiffres.titre}</h2>
+          <p className="text-ink-soft mt-4 max-w-[60ch] text-[16px] leading-relaxed">{t.chiffres.sous}</p>
         </div>
-        <div className="grid gap-10 sm:grid-cols-3">
+        <div className="border-rule mt-12 grid gap-10 border-t pt-10 sm:grid-cols-3">
           {t.chiffres.items.map((c) => (
             <div key={c.legende} className="reveal">
-              <p className="titre text-[44px]">{c.valeur}</p>
-              <p className="text-ink-soft mt-3 text-[15px] leading-relaxed">{c.legende}</p>
+              <p className="titre text-[40px] leading-none whitespace-nowrap">{c.valeur}</p>
+              <p className="text-ink-soft mt-4 max-w-[30ch] text-[15px] leading-relaxed">{c.legende}</p>
             </div>
           ))}
         </div>
@@ -219,10 +219,8 @@ function Sombre({ t }: { t: Contenu }) {
   return (
     <section id="sombre" className="bg-nuit text-white">
       <div className="mx-auto max-w-6xl px-5 py-28">
-        <div className="grid items-end gap-6 lg:grid-cols-2">
-          <h2 className="reveal titre text-[40px] sm:text-[54px]">{t.sombre.titre}</h2>
-          <p className="reveal max-w-[46ch] text-[17px] leading-relaxed text-white/60">{t.sombre.texte}</p>
-        </div>
+        <h2 className="reveal titre text-[40px] text-balance sm:text-[52px]">{t.sombre.titre}</h2>
+        <p className="reveal mt-5 max-w-[60ch] text-[17px] leading-relaxed text-white/60">{t.sombre.texte}</p>
         <div className="mt-14">
           <Capture src="/app-sombre.png" alt={t.sombre.alt} sombre />
         </div>
@@ -235,20 +233,18 @@ function Sombre({ t }: { t: Contenu }) {
 function Confiance({ t }: { t: Contenu }) {
   return (
     <section id="a-savoir" className="mx-auto max-w-6xl px-5 py-28">
-      <div className="grid gap-12 lg:grid-cols-[1fr_1.6fr]">
-        <h2 className="reveal titre text-[40px] sm:text-[48px]">{t.confiance.titre}</h2>
-        <ul className="space-y-7">
-          {t.confiance.points.map(([titre, texte]) => (
-            <li key={titre} className="reveal flex gap-4">
-              <span className="border-ink/30 mt-1 size-[18px] shrink-0 rounded-[5px] border-[1.5px]" />
-              <div>
-                <p className="text-[17px] font-medium">{titre}</p>
-                <p className="text-ink-soft mt-1.5 text-[16px] leading-relaxed">{texte}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <h2 className="reveal titre text-[40px] text-balance sm:text-[52px]">{t.confiance.titre}</h2>
+      <ul className="mt-12 grid gap-x-16 gap-y-9 md:grid-cols-2">
+        {t.confiance.points.map(([titre, texte]) => (
+          <li key={titre} className="reveal flex gap-4">
+            <span className="border-ink/30 mt-1 size-[18px] shrink-0 rounded-[5px] border-[1.5px]" />
+            <div>
+              <p className="text-[17px] font-medium">{titre}</p>
+              <p className="text-ink-soft mt-1.5 text-[16px] leading-relaxed">{texte}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
