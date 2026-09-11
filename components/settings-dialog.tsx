@@ -2,7 +2,20 @@
 
 import * as React from "react"
 import { useTheme } from "next-themes"
-import { Download, Laptop, Moon, Sun, Upload } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
+import { Download, Eraser, Laptop, Moon, RotateCcw, Sun, Upload } from "lucide-react"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import {
   Dialog,
   DialogContent,
@@ -18,6 +31,7 @@ import { useStore } from "@/lib/store"
 import { exportBackup, importBackup } from "@/lib/actions"
 import { cn } from "@/lib/utils"
 import { desktop, shortcut } from "@/lib/desktop"
+import { useActivePageId } from "@/lib/routes"
 
 const THEMES = [
   { id: "light", label: "Clair", icon: Sun },
@@ -45,6 +59,65 @@ function Section({ title, children }: { title: string; children: React.ReactNode
       <h3 className="text-muted-foreground text-xs font-medium tracking-wide uppercase">{title}</h3>
       {children}
     </section>
+  )
+}
+
+/** Retire les pages d'exemple du premier lancement, ou les remet pour relire le guide */
+function SeedPagesButton({ onRemoved }: { onRemoved: () => void }) {
+  const router = useRouter()
+  const activeId = useActivePageId()
+  const seedCount = useStore((s) => Object.values(s.pages).filter((p) => p.seed).length)
+  const { removeSeedPages, restoreSeedPages } = useStore.getState()
+
+  if (!seedCount) {
+    return (
+      <Button
+        variant="ghost"
+        className="text-muted-foreground"
+        onClick={() => {
+          restoreSeedPages()
+          toast.success("Pages d'exemple remises", { description: "Le guide est dans « Bienvenue dans Carnet »." })
+        }}
+      >
+        <RotateCcw />
+        Remettre les pages d&apos;exemple
+      </Button>
+    )
+  }
+
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <Button variant="ghost" className="text-muted-foreground">
+          <Eraser />
+          Retirer les pages d&apos;exemple
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Repartir d&apos;un carnet vide ?</AlertDialogTitle>
+          <AlertDialogDescription>
+            {seedCount > 1 ? `Les ${seedCount} pages d'exemple seront supprimées` : "La page d'exemple sera supprimée"},
+            même si vous les avez modifiées. Les pages que vous avez créées sont conservées. Vous pourrez remettre les
+            exemples depuis les réglages.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Annuler</AlertDialogCancel>
+          <AlertDialogAction
+            variant="destructive"
+            onClick={() => {
+              const removed = removeSeedPages()
+              if (activeId && removed.includes(activeId)) router.push("/")
+              onRemoved()
+              toast.success("Pages d'exemple retirées")
+            }}
+          >
+            Retirer
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   )
 }
 
@@ -143,6 +216,7 @@ export function SettingsDialog() {
               <Upload />
               Restaurer…
             </Button>
+            <SeedPagesButton onRemoved={() => setOpen(false)} />
             <input
               ref={fileRef}
               type="file"

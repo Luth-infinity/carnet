@@ -20,6 +20,8 @@ export interface Page {
   dailyDate?: string
   /** Pages créées par l'app elle-même */
   system?: "journal" | "inbox"
+  /** Page d'exemple posée au premier lancement, retirable depuis les réglages */
+  seed?: boolean
 }
 
 export type DropPosition = "before" | "after" | "inside"

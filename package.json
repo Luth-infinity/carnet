@@ -1,7 +1,7 @@
 {
   "name": "carnet",
   "productName": "Carnet",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Carnet de notes de bureau : pages imbriquées, tâches et liens entre pages, enregistrés sur la machine.",
   "main": "electron/main.js",
   "author": "Luth",

@@ -32,6 +32,7 @@ export function seedPages(): Record<string, Page> {
     trashedAt: null,
     font: "sans",
     fullWidth: false,
+    seed: true,
     ...patch,
   })
 

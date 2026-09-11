@@ -38,7 +38,13 @@ interface State {
   dailyNote: (date?: Date) => string
   inbox: () => string
   replaceAll: (pages: Record<string, Page>) => void
+  /** Supprime les pages d'exemple ; renvoie les identifiants retirés */
+  removeSeedPages: () => string[]
+  restoreSeedPages: () => void
 }
+
+/** Titres des pages d'exemple de la v0.1.0, antérieure au marqueur `seed` */
+const LEGACY_SEED_TITLES = new Set(["Bienvenue dans Carnet", "Idées en vrac", "Projets", "Refonte du site"])
 
 export const selectChildren = (pages: Record<string, Page>, parentId: string | null) =>
   Object.values(pages)
@@ -250,10 +256,52 @@ export const useStore = create<State>()(
       },
 
       replaceAll: (pages) => set({ pages, expanded: {}, seeded: true }),
+
+      removeSeedPages: () => {
+        const { pages, expanded } = get()
+        const removed = Object.values(pages).filter((p) => p.seed).map((p) => p.id)
+        if (!removed.length) return removed
+        const gone = new Set(removed)
+        const next = Object.fromEntries(Object.entries(pages).filter(([id]) => !gone.has(id)))
+        // Une page de l'utilisateur rangée dans une page d'exemple remonte à la racine plutôt que de disparaître
+        for (const page of Object.values(next)) {
+          if (page.parentId && gone.has(page.parentId)) {
+            next[page.id] = { ...page, parentId: null, order: nextOrder(next, null) }
+          }
+        }
+        set({
+          pages: next,
+          expanded: Object.fromEntries(Object.entries(expanded).filter(([id]) => !gone.has(id))),
+        })
+        return removed
+      },
+
+      restoreSeedPages: () => {
+        const seeds = seedPages()
+        // Les exemples reviennent après les pages existantes, sans les bousculer
+        const offset = nextOrder(get().pages, null)
+        for (const page of Object.values(seeds)) {
+          if (!page.parentId) page.order += offset
+        }
+        set((s) => ({ pages: { ...s.pages, ...seeds } }))
+      },
     }),
     {
       name: "carnet-data",
-      version: 1,
+      version: 2,
+      migrate: (persisted, version) => {
+        const state = persisted as Pick<State, "pages" | "expanded" | "seeded">
+        if (version < 2 && state?.pages) {
+          // Les exemples de la v0.1.0 ont été créés au même instant : on les retrouve par leur date commune
+          const welcome = Object.values(state.pages).find((p) => p.title === "Bienvenue dans Carnet")
+          for (const page of Object.values(state.pages)) {
+            if (welcome && page.createdAt === welcome.createdAt && LEGACY_SEED_TITLES.has(page.title)) {
+              page.seed = true
+            }
+          }
+        }
+        return state
+      },
       storage: createJSONStorage(() => localStorage),
       partialize: (s) => ({ pages: s.pages, expanded: s.expanded, seeded: s.seeded }),
       onRehydrateStorage: () => (state) => {

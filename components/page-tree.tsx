@@ -12,6 +12,7 @@ import { selectChildren, useStore } from "@/lib/store"
 import type { DropPosition } from "@/lib/types"
 import { cn } from "@/lib/utils"
 import { pageHref, useActivePageId } from "@/lib/routes"
+import { useNavigateActions } from "@/lib/actions"
 
 const DRAG_TYPE = "application/x-carnet-page"
 
@@ -31,6 +32,22 @@ const DragContext = React.createContext<{
 export function PageTree({ parentId = null }: { parentId?: string | null }) {
   const [state, setState] = React.useState<DragState>({ overId: null, position: null })
   const ctx = React.useMemo(() => ({ state, setState }), [state])
+  const empty = useStore((s) => !Object.values(s.pages).some((p) => p.parentId === parentId && !p.trashedAt))
+  const { newPage } = useNavigateActions()
+
+  // Carnet vide, par exemple après avoir retiré les pages d'exemple
+  if (empty && parentId === null) {
+    return (
+      <button
+        type="button"
+        onClick={() => newPage()}
+        className="text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex h-8 w-full items-center gap-2 rounded-md border border-dashed px-2 text-sm transition-colors"
+      >
+        <Plus className="size-4" />
+        Créer une première page
+      </button>
+    )
+  }
 
   return (
     <DragContext.Provider value={ctx}>
